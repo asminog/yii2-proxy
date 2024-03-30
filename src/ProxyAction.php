@@ -29,7 +29,10 @@ class ProxyAction extends Action
      */
     public function run(): Response
     {
-        $url = (string)$this->request->headers->get('X-Proxy-Url');
+        $url = $this->request->headers->get('X-Proxy-Url');
+        if (is_array($url)) {
+            $url = reset($url);
+        }
         if ($this->accessToken) {
             $token = $this->request->headers->get('X-Access-Token');
             if ($token !== $this->accessToken) {
