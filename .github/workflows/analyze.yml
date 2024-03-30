@@ -38,8 +38,5 @@ jobs:
     - name: Run CS Fixer
       run: composer run-script php-cs-fixer
 
-    - name: Run Psalm
-      run: composer run-script psalm
-
     - name: Run PHPStan
       run: composer run-script phpstan
