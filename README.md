@@ -6,7 +6,7 @@
 This is a simple proxy for Yii2 framework.
 This extension provides the HTTP Proxy Action for the [Yii framework 2.0](https://www.yiiframework.com).
 
-For license information check the [LICENSE](LICENSE.md)-file.
+For license information check the [LICENSE](LICENSE)-file.
 
 [![Build Status](https://github.com/asminog/yii2-proxy/workflows/analyze/badge.svg)](https://github.com/asminog/yii2-proxy/actions/workflows/analyze.yml)
 [![Build Status](https://github.com/asminog/yii2-proxy/workflows/phpmd/badge.svg)](https://github.com/asminog/yii2-proxy/actions/workflows/phpmd.yml)
