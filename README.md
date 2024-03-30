@@ -33,6 +33,8 @@ class SiteController extends Controller
         return [
             'proxy' => [
                 'class' => ProxyAction::class,
+                // 'accessToken' => 'your-access-token', // - set access token for secure requests
+                // 'throw404Exception' => true, // - show 404 error if access token is not valid or request url is not valid
             ],
         ];
     }
