@@ -1,0 +1,37 @@
+{
+    "name": "asminog/php-initial-project",
+    "description": "PHP project template",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Asminog\\Template\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Serg Akudovich"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.1"
+    },
+    "scripts": {
+        "php-cs-fixer": "php-cs-fixer fix src",
+        "phpunit": "phpunit",
+        "psalm": "psalm --show-info=true",
+        "phpstan": "phpstan analyse --level=9 src tests",
+        "phpmd": ["phpmd ./src github cleancode,codesize,controversial,design,unusedcode,naming"]
+    },
+    "require-dev": {
+        "ext-xdebug": "*",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.8",
+        "vimeo/psalm": "^4.27",
+        "friendsofphp/php-cs-fixer": "^3.11",
+        "phpmd/phpmd": "^2.13",
+        "johnkary/phpunit-speedtrap": "^4.0"
+    }
+}
