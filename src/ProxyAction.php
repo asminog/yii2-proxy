@@ -10,6 +10,7 @@ use yii\httpclient\Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\Response;
 
@@ -17,8 +18,7 @@ class ProxyAction extends Action
 {
     public string|null $accessToken = null;
 
-    public string $accessExceptionClass = ForbiddenHttpException::class;
-    public string $urlExceptionClass = BadRequestHttpException::class;
+    public bool $throw404Exception = false;
     private Request $request;
     private Response $response;
 
@@ -29,6 +29,7 @@ class ProxyAction extends Action
      * @throws Exception
      * @throws ForbiddenHttpException
      * @throws InvalidConfigException
+     * @throws NotFoundHttpException
      */
     public function run(): Response
     {
@@ -39,11 +40,17 @@ class ProxyAction extends Action
         if ($this->accessToken) {
             $token = $this->request->headers->get('X-Access-Token');
             if ($token !== $this->accessToken) {
-                throw new $this->accessExceptionClass('Access token is invalid');
+                if ($this->throw404Exception) {
+                    throw new NotFoundHttpException('Access token is invalid');
+                }
+                throw new ForbiddenHttpException('Access token is invalid');
             }
         }
         if (!$url) {
-            throw new $this->urlExceptionClass('Proxy URL is not set');
+            if ($this->throw404Exception) {
+                throw new NotFoundHttpException('Proxy URL is not set');
+            }
+            throw new BadRequestHttpException('Proxy URL is not set');
         }
 
         return $this->proxyRequest($url);
