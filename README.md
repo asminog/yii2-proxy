@@ -8,8 +8,8 @@ This extension provides the HTTP Proxy Action for the [Yii framework 2.0](https:
 
 For license information check the [LICENSE](LICENSE.md)-file.
 
-[![Build Status](https://github.com/asminog/yii2-proxy/workflows/analyze/badge.svg)](https://github.com/asminog/php-initial-project/actions/workflows/analyze.yml)
-[![Build Status](https://github.com/asminog/yii2-proxy/workflows/phpmd/badge.svg)](https://github.com/asminog/php-initial-project/actions/workflows/phpmd.yml)
+[![Build Status](https://github.com/asminog/yii2-proxy/workflows/analyze/badge.svg)](https://github.com/asminog/yii2-proxy/actions/workflows/analyze.yml)
+[![Build Status](https://github.com/asminog/yii2-proxy/workflows/phpmd/badge.svg)](https://github.com/asminog/yii2-proxy/actions/workflows/phpmd.yml)
 
 ![GitHub repo file count](https://img.shields.io/github/directory-file-count/asminog/yii2-proxy)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/asminog/yii2-proxy)
