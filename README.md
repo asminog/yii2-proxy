@@ -4,7 +4,7 @@
 </p>
 
 This is a simple proxy for Yii2 framework.
-This extension provides the HTTP Proxy Action for the [Yii framework 2.0](https://www.yiiframework.com).
+This extension provides the HTTP proxy action for the [Yii framework 2.0](https://www.yiiframework.com).
 
 For license information check the [LICENSE](LICENSE)-file.
 
