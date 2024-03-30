@@ -16,6 +16,9 @@ use yii\web\Response;
 class ProxyAction extends Action
 {
     public string|null $accessToken = null;
+
+    public string $accessExceptionClass = ForbiddenHttpException::class;
+    public string $urlExceptionClass = BadRequestHttpException::class;
     private Request $request;
     private Response $response;
 
@@ -36,11 +39,11 @@ class ProxyAction extends Action
         if ($this->accessToken) {
             $token = $this->request->headers->get('X-Access-Token');
             if ($token !== $this->accessToken) {
-                throw new ForbiddenHttpException('Access denied');
+                throw new $this->accessExceptionClass('Access token is invalid');
             }
         }
         if (!$url) {
-            throw new BadRequestHttpException('X-Proxy-Url header is required');
+            throw new $this->urlExceptionClass('Proxy URL is not set');
         }
 
         return $this->proxyRequest($url);
