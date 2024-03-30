@@ -47,7 +47,7 @@ class ProxyAction extends Action
      * @throws Exception
      * @throws InvalidConfigException
      */
-    protected function proxyRequest($url): Response
+    protected function proxyRequest(string $url): Response
     {
         $client = new Client(['transport' => 'yii\httpclient\CurlTransport']);
         $headers = $this->request->headers;
@@ -67,7 +67,7 @@ class ProxyAction extends Action
             ->setCookies($this->request->cookies->toArray())
             ->send();
 
-        $this->response->statusCode = $response->statusCode;
+        $this->response->statusCode = (int)$response->statusCode;
         $this->response->format = Response::FORMAT_RAW;
         $this->response->headers->removeAll();
         $this->response->headers->fromArray($response->headers->toArray());
@@ -80,6 +80,9 @@ class ProxyAction extends Action
     }
 
     /**
+     *
+     * @param array<string, mixed> $config
+     *
      * @throws InvalidConfigException
      */
     public function __construct(string $actionId, Controller $controller, array $config = [])
