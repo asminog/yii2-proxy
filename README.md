@@ -1,9 +1,43 @@
-# php-initial-project
+<p align="center">
+    <h1 align="center">HTTP Proxy Extension for Yii 2</h1>
+    <br>
+</p>
 
-[![Build Status](https://github.com/asminog/php-initial-project/workflows/phpunit/badge.svg)](https://github.com/asminog/php-initial-project/actions/workflows/phpunit.yml)
-[![Build Status](https://github.com/asminog/php-initial-project/workflows/analyze/badge.svg)](https://github.com/asminog/php-initial-project/actions/workflows/analyze.yml)
-[![Build Status](https://github.com/asminog/php-initial-project/workflows/phpmd/badge.svg)](https://github.com/asminog/php-initial-project/actions/workflows/phpmd.yml)
-[![codecov](https://codecov.io/gh/asminog/php-initial-project/branch/main/graph/badge.svg?token=4QF3P3PV5T)](https://codecov.io/gh/asminog/php-initial-project)
+This is a simple proxy for Yii2 framework.
+This extension provides the HTTP Proxy Action for the [Yii framework 2.0](https://www.yiiframework.com).
 
-![GitHub repo file count](https://img.shields.io/github/directory-file-count/asminog/php-initial-project)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/asminog/php-initial-project)
+For license information check the [LICENSE](LICENSE.md)-file.
+
+[![Build Status](https://github.com/asminog/yii2-proxy/workflows/analyze/badge.svg)](https://github.com/asminog/php-initial-project/actions/workflows/analyze.yml)
+[![Build Status](https://github.com/asminog/yii2-proxy/workflows/phpmd/badge.svg)](https://github.com/asminog/php-initial-project/actions/workflows/phpmd.yml)
+
+![GitHub repo file count](https://img.shields.io/github/directory-file-count/asminog/yii2-proxy)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/asminog/yii2-proxy)
+
+
+## Installation
+
+```bash
+composer require asminog/yii2-proxy
+```
+
+## Usage
+
+```php
+use asminog\proxy\ProxyAction;
+
+class SiteController extends Controller
+{
+    public function actions()
+    {
+        return [
+            'proxy' => [
+                'class' => ProxyAction::class,
+            ],
+        ];
+    }
+}
+```
+
+
+
