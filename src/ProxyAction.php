@@ -41,14 +41,14 @@ class ProxyAction extends Action
             $token = $this->request->headers->get('X-Access-Token');
             if ($token !== $this->accessToken) {
                 if ($this->throw404Exception) {
-                    throw new NotFoundHttpException('Access token is invalid');
+                    throw new NotFoundHttpException('Page not found');
                 }
                 throw new ForbiddenHttpException('Access token is invalid');
             }
         }
         if (!$url) {
             if ($this->throw404Exception) {
-                throw new NotFoundHttpException('Proxy URL is not set');
+                throw new NotFoundHttpException('Page not found');
             }
             throw new BadRequestHttpException('Proxy URL is not set');
         }
