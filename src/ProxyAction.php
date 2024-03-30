@@ -87,8 +87,16 @@ class ProxyAction extends Action
      */
     public function __construct(string $actionId, Controller $controller, array $config = [])
     {
-        $this->request = Instance::ensure($controller->request, Request::class);
-        $this->response = Instance::ensure($controller->response, Response::class);
+        if (!($controller->request instanceof Request)) {
+            throw new InvalidConfigException('Request component must be an instance of yii\web\Request');
+        }
+        $this->request = $controller->request;
+
+        if (!($controller->response instanceof Response)) {
+            throw new InvalidConfigException('Response component must be an instance of yii\web\Response');
+        }
+        $this->response = $controller->response;
+
         parent::__construct($actionId, $controller, $config);
     }
 }
