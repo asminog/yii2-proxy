@@ -71,6 +71,7 @@ class ProxyAction extends Action
         $client = new Client(['transport' => 'yii\httpclient\CurlTransport']);
         $headers = $this->request->headers;
         $headers->remove('X-Proxy-Url');
+        $headers->remove('X-Access-Token');
         $request = $client->createRequest()
             ->setMethod($this->request->method)
             ->setUrl($url);
