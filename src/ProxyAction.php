@@ -2,9 +2,9 @@
 
 namespace asminog\proxy;
 
+use Yii;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
-use yii\di\Instance;
 use yii\httpclient\Client;
 use yii\httpclient\Exception;
 use yii\web\BadRequestHttpException;
@@ -21,6 +21,12 @@ class ProxyAction extends Action
     public bool $throw404Exception = false;
     private Request $request;
     private Response $response;
+
+    public function init(): void
+    {
+        parent::init();
+        $this->controller->enableCsrfValidation = false;
+    }
 
 
     /**
