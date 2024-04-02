@@ -2,7 +2,6 @@
 
 namespace asminog\proxy;
 
-use Yii;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\httpclient\Client;
@@ -19,17 +18,12 @@ class ProxyAction extends Action
     public string|null $accessToken = null;
 
     public bool $throw404Exception = false;
+    /** @var string[] */
     public array $proxyHeaders = [];
+    /** @var string[] */
     public array $proxyCookies = [];
     private Request $request;
     private Response $response;
-
-    public function init(): void
-    {
-        parent::init();
-        $this->controller->enableCsrfValidation = false;
-    }
-
 
     /**
      * @return Response
@@ -81,11 +75,6 @@ class ProxyAction extends Action
 
         $response = $request->send();
 
-        Yii::debug([
-            'request' => [$request->url, $request->method, $request->headers->toArray(), $request->data, $request->content, $request->cookies->toArray()],
-            'response' => [$response->statusCode, $response->headers->toArray(), $response->content, $response->cookies->toArray()],
-        ]);
-
         return $this->proxyResponse($response);
     }
 
@@ -97,6 +86,10 @@ class ProxyAction extends Action
      */
     public function __construct(string $actionId, Controller $controller, array $config = [])
     {
+        // Disable CSRF validation
+        $controller->enableCsrfValidation = false;
+
+        // Set request and response components
         if (!($controller->request instanceof Request)) {
             throw new InvalidConfigException('Request component must be an instance of yii\web\Request');
         }
