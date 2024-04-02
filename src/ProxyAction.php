@@ -15,7 +15,7 @@ use yii\web\Response;
 
 class ProxyAction extends Action
 {
-    public string|null $accessToken = null;
+    public ?string $accessToken = null;
 
     public bool $throw404Exception = false;
     /** @var string[] */
