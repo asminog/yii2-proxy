@@ -21,7 +21,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": "^7.4",
+    "php": ">=7.4",
     "yiisoft/yii2-httpclient": "~2.0.0"
   },
   "scripts": {
