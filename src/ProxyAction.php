@@ -19,6 +19,8 @@ class ProxyAction extends Action
     public string|null $accessToken = null;
 
     public bool $throw404Exception = false;
+    public array $proxyHeaders = [];
+    public array $proxyCookies = [];
     private Request $request;
     private Response $response;
 
@@ -70,45 +72,21 @@ class ProxyAction extends Action
     {
         $client = new Client(['transport' => 'yii\httpclient\CurlTransport']);
         $headers = $this->request->headers;
-        $headers->remove('X-Proxy-Url');
-        $headers->remove('X-Access-Token');
-        $headers->remove('Host');
-        $headers->remove('Content-Length');
-        $headers->remove('Connection');
         $request = $client->createRequest()
             ->setMethod($this->request->method)
-            ->setOptions([
-                'followLocation' => true,
-                'maxRedirects' => 3,
-            ])
             ->setUrl($url);
-        if ($this->request->isGet) {
-            $request->setdata($this->request->get());
-        } elseif ($this->request->post()) {
-            $request->setData($this->request->post());
-        } elseif ($this->request->rawBody) {
-            $request->setContent($this->request->rawBody);
-        }
-        $response = $request
-            ->setHeaders($headers->toArray())
-            ->setCookies($this->request->cookies->toArray())
-            ->send();
+        $this->addData($request);
+        $this->addHeaders($headers, $request);
+        $this->addCookies($request);
+
+        $response = $request->send();
 
         Yii::debug([
             'request' => [$request->url, $request->method, $request->headers->toArray(), $request->data, $request->content, $request->cookies->toArray()],
             'response' => [$response->statusCode, $response->headers->toArray(), $response->content, $response->cookies->toArray()],
         ]);
 
-        $this->response->statusCode = (int)$response->statusCode;
-        $this->response->format = Response::FORMAT_RAW;
-        $this->response->headers->removeAll();
-        $this->response->headers->fromArray($response->headers->toArray());
-        $this->response->cookies->removeAll();
-        $this->response->cookies->fromArray($response->cookies->toArray());
-
-        $this->response->content = $response->content;
-
-        return $this->response;
+        return $this->proxyResponse($response);
     }
 
     /**
@@ -130,5 +108,69 @@ class ProxyAction extends Action
         $this->response = $controller->response;
 
         parent::__construct($actionId, $controller, $config);
+    }
+
+    /**
+     * @param mixed $headers
+     * @param \yii\httpclient\Request $request
+     * @return void
+     */
+    public function addHeaders(mixed $headers, \yii\httpclient\Request $request): void
+    {
+        if ($this->proxyHeaders) {
+            foreach ($this->proxyHeaders as $proxyHeader) {
+                if (($value = $headers->get($proxyHeader)) !== null) {
+                    $request->headers->add($proxyHeader, $value);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param \yii\httpclient\Request $request
+     * @return void
+     */
+    public function addCookies(\yii\httpclient\Request $request): void
+    {
+        if ($this->proxyCookies) {
+            foreach ($this->proxyCookies as $proxyCookie) {
+                if (($cookie = $this->request->cookies->get($proxyCookie)) !== null) {
+                    $request->cookies->add($cookie);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param \yii\httpclient\Request $request
+     * @return void
+     */
+    public function addData(\yii\httpclient\Request $request): void
+    {
+        if ($this->request->isGet) {
+            $request->setdata($this->request->get());
+        } elseif ($this->request->post()) {
+            $request->setData($this->request->post());
+        } elseif ($this->request->rawBody) {
+            $request->setContent($this->request->rawBody);
+        }
+    }
+
+    /**
+     * @param \yii\httpclient\Response $response
+     * @return Response
+     */
+    public function proxyResponse(\yii\httpclient\Response $response): Response
+    {
+        $this->response->statusCode = (int)$response->statusCode;
+        $this->response->format = Response::FORMAT_RAW;
+        $this->response->headers->removeAll();
+        $this->response->headers->fromArray($response->headers->toArray());
+        $this->response->cookies->removeAll();
+        $this->response->cookies->fromArray($response->cookies->toArray());
+
+        $this->response->content = $response->content;
+
+        return $this->response;
     }
 }
