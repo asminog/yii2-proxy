@@ -72,6 +72,9 @@ class ProxyAction extends Action
         $headers = $this->request->headers;
         $headers->remove('X-Proxy-Url');
         $headers->remove('X-Access-Token');
+        $headers->remove('Host');
+        $headers->remove('Content-Length');
+        $headers->remove('Connection');
         $request = $client->createRequest()
             ->setMethod($this->request->method)
             ->setOptions([
