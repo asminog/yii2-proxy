@@ -87,6 +87,11 @@ class ProxyAction extends Action
             ->setCookies($this->request->cookies->toArray())
             ->send();
 
+        Yii::debug([
+            'request' => [$request->url, $request->method, $request->headers->toArray(), $request->data, $request->content, $request->cookies->toArray()],
+            'response' => [$response->statusCode, $response->headers->toArray(), $response->content, $response->cookies->toArray()],
+        ]);
+
         $this->response->statusCode = (int)$response->statusCode;
         $this->response->format = Response::FORMAT_RAW;
         $this->response->headers->removeAll();
