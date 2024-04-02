@@ -74,6 +74,10 @@ class ProxyAction extends Action
         $headers->remove('X-Access-Token');
         $request = $client->createRequest()
             ->setMethod($this->request->method)
+            ->setOptions([
+                'followLocation' => true,
+                'maxRedirects' => 3,
+            ])
             ->setUrl($url);
         if ($this->request->isGet) {
             $request->setdata($this->request->get());
