@@ -35,6 +35,8 @@ class SiteController extends Controller
                 'class' => ProxyAction::class,
                 // 'accessToken' => 'your-access-token', // - set access token for secure requests
                 // 'throw404Exception' => true, // - show 404 error if access token is not valid or request url is not valid
+                // 'proxyHeaders' => ['User-Agent', 'Content-Type'], // - set headers for proxy request
+                // 'proxyCookies' => ['cookie1', 'cookie2'], // - set cookies for proxy request
             ],
         ];
     }

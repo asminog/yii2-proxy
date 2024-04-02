@@ -65,12 +65,11 @@ class ProxyAction extends Action
     protected function proxyRequest(string $url): Response
     {
         $client = new Client(['transport' => 'yii\httpclient\CurlTransport']);
-        $headers = $this->request->headers;
         $request = $client->createRequest()
             ->setMethod($this->request->method)
             ->setUrl($url);
         $this->addData($request);
-        $this->addHeaders($headers, $request);
+        $this->addHeaders($request);
         $this->addCookies($request);
 
         $response = $request->send();
@@ -104,15 +103,18 @@ class ProxyAction extends Action
     }
 
     /**
-     * @param mixed $headers
      * @param \yii\httpclient\Request $request
      * @return void
      */
-    public function addHeaders(mixed $headers, \yii\httpclient\Request $request): void
+    public function addHeaders(\yii\httpclient\Request $request): void
     {
         if ($this->proxyHeaders) {
             foreach ($this->proxyHeaders as $proxyHeader) {
-                if (($value = $headers->get($proxyHeader)) !== null) {
+                $value = $this->request->headers->get($proxyHeader);
+                if ($value !== null) {
+                    if (is_array($value)) {
+                        $value = reset($value);
+                    }
                     $request->headers->add($proxyHeader, $value);
                 }
             }
@@ -127,7 +129,8 @@ class ProxyAction extends Action
     {
         if ($this->proxyCookies) {
             foreach ($this->proxyCookies as $proxyCookie) {
-                if (($cookie = $this->request->cookies->get($proxyCookie)) !== null) {
+                $cookie = $this->request->cookies->get($proxyCookie);
+                if ($cookie !== null) {
                     $request->cookies->add($cookie);
                 }
             }
