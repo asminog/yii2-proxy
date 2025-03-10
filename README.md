@@ -21,7 +21,7 @@ For license information check the [LICENSE](LICENSE)-file.
 composer require asminog/yii2-proxy
 ```
 
-## Usage
+## Usage on domain.com
 
 ```php
 use asminog\proxy\ProxyAction;
@@ -44,7 +44,7 @@ class SiteController extends Controller
 }
 ```
 
-## Example request through proxy
+## Example request through proxy on domain.com
 
 ```php
 
